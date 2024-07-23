@@ -32,21 +32,61 @@
             transform: translate(-50%, -50%);
             transition: top 0.3s, left 0.3s;
         }
+
+        #ball {
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 40%;
+            left: 40%;
+            transition: top 0.3s, left 0.3s;
+        }
     </style>
 </head>
 <body>
     <div id="game-container">
         <div id="character"></div>
+        <div id="ball"></div>
     </div>
     <script>
         document.getElementById('game-container').addEventListener('click', function(event) {
             var character = document.getElementById('character');
+            var ball = document.getElementById('ball');
             var rect = event.target.getBoundingClientRect();
             var x = event.clientX - rect.left;
             var y = event.clientY - rect.top;
 
             character.style.left = x + 'px';
             character.style.top = y + 'px';
+
+            // Checa a distância entre o personagem e a bola
+            var charRect = character.getBoundingClientRect();
+            var ballRect = ball.getBoundingClientRect();
+            var dx = charRect.left - ballRect.left;
+            var dy = charRect.top - ballRect.top;
+            var distance = Math.sqrt(dx * dx + dy * dy);
+
+            // Se a distância for menor que 50 pixels, move a bola
+            if (distance < 50) {
+                var angle = Math.random() * 2 * Math.PI;
+                var moveX = Math.cos(angle) * 100;
+                var moveY = Math.sin(angle) * 100;
+
+                var newBallX = ballRect.left + moveX;
+                var newBallY = ballRect.top + moveY;
+
+                // Garante que a bola não saia dos limites do contêiner
+                var containerRect = document.getElementById('game-container').getBoundingClientRect();
+                if (newBallX < 0) newBallX = 0;
+                if (newBallY < 0) newBallY = 0;
+                if (newBallX > containerRect.width - ballRect.width) newBallX = containerRect.width - ballRect.width;
+                if (newBallY > containerRect.height - ballRect.height) newBallY = containerRect.height - ballRect.height;
+
+                ball.style.left = newBallX + 'px';
+                ball.style.top = newBallY + 'px';
+            }
         });
     </script>
 </body>
