@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo Simples</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #game-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background-image: url('imagem1.png'); /* Substitua pelo caminho da sua imagem de fundo */
+            background-size: cover;
+            background-position: center;
+        }
+
+        #character {
+            width: 50px;
+            height: 50px;
+            background-image: url('imagem2.png'); /* Substitua pelo caminho da sua imagem do personagem */
+            background-size: cover;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            transition: top 0.3s, left 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <div id="character"></div>
+    </div>
+    <script>
+        document.getElementById('game-container').addEventListener('click', function(event) {
+            var character = document.getElementById('character');
+            var rect = event.target.getBoundingClientRect();
+            var x = event.clientX - rect.left;
+            var y = event.clientY - rect.top;
+
+            character.style.left = x + 'px';
+            character.style.top = y + 'px';
+        });
+    </script>
+</body>
+</html>
