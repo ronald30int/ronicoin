@@ -1,93 +1,141 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Futebol</title>
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #game-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            background-image: url('imagem1.png'); /* Substitua pelo caminho da sua imagem de fundo */
-            background-size: cover;
-            background-position: center;
-        }
-
-        #character {
-            width: 50px;
-            height: 50px;
-            background-image: url('imagem2.png'); /* Substitua pelo caminho da sua imagem do personagem */
-            background-size: cover;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            transition: top 0.3s, left 0.3s;
-        }
-
-        #ball {
-            width: 20px;
-            height: 20px;
-            background-color: white;
-            border-radius: 50%;
-            position: absolute;
-            top: 40%;
-            left: 40%;
-            transition: top 0.3s, left 0.3s;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jogo de Futebol</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+      background-color: #cce7ff;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    #game-area {
+      width: 600px;
+      height: 400px;
+      position: relative;
+      background: url('download.jpg') no-repeat center center;
+      background-size: cover;
+      margin-top: 20px;
+      overflow: hidden;
+      border: 2px solid #000;
+    }
+    #trave {
+      width: 200px;
+      height: 10px;
+      position: absolute;
+      top: 20px;
+      left: 200px;
+      background-color: white;
+    }
+    #goleiro {
+      width: 50px;
+      height: 50px;
+      position: absolute;
+      top: 40px;
+      left: 275px;
+      background-color: black;
+      border-radius: 50%;
+    }
+    #bola {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      bottom: 20px;
+      left: 285px;
+      background-color: #ff4500;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    #placar {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
 </head>
 <body>
-    <div id="game-container">
-        <div id="character"></div>
-        <div id="ball"></div>
-    </div>
-    <script>
-        document.getElementById('game-container').addEventListener('click', function(event) {
-            var character = document.getElementById('character');
-            var ball = document.getElementById('ball');
-            var rect = event.target.getBoundingClientRect();
-            var x = event.clientX - rect.left;
-            var y = event.clientY - rect.top;
+  <h1>Jogo de Futebol</h1>
+  <div id="game-area">
+    <div id="trave"></div>
+    <div id="goleiro"></div>
+    <div id="bola"></div>
+  </div>
+  <div id="placar">
+    <p>VEZ: <span id="turno">Davi</span></p>
+    <p>GOLS - Davi: <span id="pontos-davi">0</span> | Gabriel: <span id="pontos-gabriel">0</span></p>
+  </div>
+  <script>
+    const bola = document.getElementById("bola");
+    const goleiro = document.getElementById("goleiro");
+    const trave = document.getElementById("trave");
+    const turnoElement = document.getElementById("turno");
+    const pontosDaviElement = document.getElementById("pontos-davi");
+    const pontosGabrielElement = document.getElementById("pontos-gabriel");
 
-            character.style.left = x + 'px';
-            character.style.top = y + 'px';
+    let turno = "Davi";
+    let pontosDavi = 0;
+    let pontosGabriel = 0;
 
-            // Checa a distância entre o personagem e a bola
-            var charRect = character.getBoundingClientRect();
-            var ballRect = ball.getBoundingClientRect();
-            var dx = charRect.left - ballRect.left;
-            var dy = charRect.top - ballRect.top;
-            var distance = Math.sqrt(dx * dx + dy * dy);
+    // Movimento do goleiro
+    let direcao = 1;
+    setInterval(() => {
+      let posicaoAtual = goleiro.offsetLeft;
+      if (posicaoAtual <= 200 || posicaoAtual >= 350) {
+        direcao *= -1;
+      }
+      goleiro.style.left = posicaoAtual + direcao * 5 + "px";
+    }, 30);
 
-            // Se a distância for menor que 50 pixels, move a bola
-            if (distance < 50) {
-                var angle = Math.random() * 2 * Math.PI;
-                var moveX = Math.cos(angle) * 100;
-                var moveY = Math.sin(angle) * 100;
+    bola.addEventListener("click", () => {
+      // Movimento da bola
+      bola.style.transition = "1s";
+      bola.style.bottom = "360px"; // Sobe até a linha branca
+      bola.style.left = "285px";
 
-                var newBallX = ballRect.left + moveX;
-                var newBallY = ballRect.top + moveY;
+      setTimeout(() => {
+        // Verificar se a bola alcançou a trave e não foi defendida pelo goleiro
+        const bolaRect = bola.getBoundingClientRect();
+        const traveRect = trave.getBoundingClientRect();
+        const goleiroRect = goleiro.getBoundingClientRect();
 
-                // Garante que a bola não saia dos limites do contêiner
-                var containerRect = document.getElementById('game-container').getBoundingClientRect();
-                if (newBallX < 0) newBallX = 0;
-                if (newBallY < 0) newBallY = 0;
-                if (newBallX > containerRect.width - ballRect.width) newBallX = containerRect.width - ballRect.width;
-                if (newBallY > containerRect.height - ballRect.height) newBallY = containerRect.height - ballRect.height;
+        const entrouNoGol =
+          bolaRect.top <= traveRect.bottom &&
+          bolaRect.left >= traveRect.left &&
+          bolaRect.right <= traveRect.right;
 
-                ball.style.left = newBallX + 'px';
-                ball.style.top = newBallY + 'px';
-            }
-        });
-    </script>
+        const defesa =
+          bolaRect.left < goleiroRect.right &&
+          bolaRect.right > goleiroRect.left &&
+          bolaRect.top < goleiroRect.bottom &&
+          bolaRect.bottom > goleiroRect.top;
+
+        if (entrouNoGol && !defesa) {
+          if (turno === "Davi") {
+            pontosDavi++;
+            pontosDaviElement.textContent = pontosDavi;
+          } else {
+            pontosGabriel++;
+            pontosGabrielElement.textContent = pontosGabriel;
+          }
+        }
+
+        // Resetar posição da bola
+        bola.style.transition = "none";
+        bola.style.bottom = "20px";
+        bola.style.left = "285px";
+
+        // Alternar turno
+        turno = turno === "Davi" ? "Gabriel" : "Davi";
+        turnoElement.textContent = turno;
+      }, 1000);
+    });
+  </script>
 </body>
 </html>
