@@ -1,0 +1,12 @@
+1)  sudo apt-get update
+
+2) sudo apt-get install automake autoconf pkg-config libcurl4-openssl-dev libjansson-dev libssl-dev libgmp-dev zlib1g-dev make g++
+
+3) sudo apt-get install git
+4) git clone https://github.com/tpruvot/cpuminer-multi
+
+5) cd cpuminer-multi
+
+6) sudo ./build.sh
+
+./cpuminer -u ltc1q93hxmqkg6qm5qldwhhge37xq9kgqktldfpuqdy -p pass -a sha256d -o stratum+tcp://ltc.zsolo.bid:4057

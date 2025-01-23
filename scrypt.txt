@@ -1,0 +1,10 @@
+./cpuminer -a allium -u M84L97x4yfnxvFgAmA5w5cuqhLdhciLUBn -p c=GRLC  -o stratum+tcp://allium.eu.mine.zpool.ca:6433 -t 4 --cpu-affinity 0x55
+
+./cpuminer -a allium -u M84L97x4yfnxvFgAmA5w5cuqhLdhciLUBn -p c=JOSS -o stratum+tcp://allium.eu.mine.zpool.ca:6433 -t 4 --cpu-affinity 0x55
+
+
+./cpuminer -a allium -u M84L97x4yfnxvFgAmA5w5cuqhLdhciLUBn -p c=GRLC  -o stratum+tcp://allium.eu.mine.zergpool.com:6433 -t 4 --cpu-affinity 0x55
+
+./cpuminer -a scrypt -u M84L97x4yfnxvFgAmA5w5cuqhLdhciLUBn -p c=GRLC  -o stratum+tcp://miningpoolfun.ddns.net:4443 -t 4 --cpu-affinity 0x55
+
+./cpuminer -a yescrypt -u M84L97x4yfnxvFgAmA5w5cuqhLdhciLUBn -p c=GRLC  -o stratum+tcp://yescrypt.eu.mine.zpool.ca:6233 -t 4 --cpu-affinity 0x55

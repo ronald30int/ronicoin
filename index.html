@@ -1,141 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Jogo de Futebol</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 0;
-      padding: 0;
-      background-color: #cce7ff;
-    }
-    h1 {
-      margin-top: 20px;
-    }
-    #game-area {
-      width: 600px;
-      height: 400px;
-      position: relative;
-      background: url('download.jpg') no-repeat center center;
-      background-size: cover;
-      margin-top: 20px;
-      overflow: hidden;
-      border: 2px solid #000;
-    }
-    #trave {
-      width: 200px;
-      height: 10px;
-      position: absolute;
-      top: 20px;
-      left: 200px;
-      background-color: white;
-    }
-    #goleiro {
-      width: 50px;
-      height: 50px;
-      position: absolute;
-      top: 90px;
-      left: 275px;
-      background-color: black;
-      border-radius: 50%;
-    }
-    #bola {
-      width: 30px;
-      height: 30px;
-      position: absolute;
-      bottom: 20px;
-      left: 285px;
-      background-color: #ff4500;
-      border-radius: 50%;
-      cursor: pointer;
-    }
-    #placar {
-      margin-top: 20px;
-      font-size: 18px;
-    }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Roni (RCG1)</title>
+ <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Jogo de Futebol</h1>
-  <div id="game-area">
-    <div id="trave"></div>
-    <div id="goleiro"></div>
-    <div id="bola"></div>
-  </div>
-  <div id="placar">
-    <p>VEZ: <span id="turno">Davi</span></p>
-    <p>GOLS - Davi: <span id="pontos-davi">0</span> | Gabriel: <span id="pontos-gabriel">0</span></p>
-  </div>
-  <script>
-    const bola = document.getElementById("bola");
-    const goleiro = document.getElementById("goleiro");
-    const trave = document.getElementById("trave");
-    const turnoElement = document.getElementById("turno");
-    const pontosDaviElement = document.getElementById("pontos-davi");
-    const pontosGabrielElement = document.getElementById("pontos-gabriel");
-
-    let turno = "Davi";
-    let pontosDavi = 0;
-    let pontosGabriel = 0;
-
-    // Movimento do goleiro
-    let direcao = 1;
-    setInterval(() => {
-      let posicaoAtual = goleiro.offsetLeft;
-      if (posicaoAtual <= 200 || posicaoAtual >= 350) {
-        direcao *= -1;
-      }
-      goleiro.style.left = posicaoAtual + direcao * 5 + "px";
-    }, 30);
-
-    bola.addEventListener("click", () => {
-      // Movimento da bola
-      bola.style.transition = "1s";
-      bola.style.bottom = "360px"; // Sobe até a linha branca
-      bola.style.left = "285px";
-
-      setTimeout(() => {
-        // Verificar se a bola alcançou a trave e não foi defendida pelo goleiro
-        const bolaRect = bola.getBoundingClientRect();
-        const traveRect = trave.getBoundingClientRect();
-        const goleiroRect = goleiro.getBoundingClientRect();
-
-        const entrouNoGol =
-          bolaRect.top <= traveRect.bottom &&
-          bolaRect.left >= traveRect.left &&
-          bolaRect.right <= traveRect.right;
-
-        const defesa =
-          bolaRect.left < goleiroRect.right &&
-          bolaRect.right > goleiroRect.left &&
-          bolaRect.top < goleiroRect.bottom &&
-          bolaRect.bottom > goleiroRect.top;
-
-        if (entrouNoGol && !defesa) {
-          if (turno === "Davi") {
-            pontosDavi++;
-            pontosDaviElement.textContent = pontosDavi;
-          } else {
-            pontosGabriel++;
-            pontosGabrielElement.textContent = pontosGabriel;
-          }
-        }
-
-        // Resetar posição da bola
-        bola.style.transition = "none";
-        bola.style.bottom = "20px";
-        bola.style.left = "285px";
-
-        // Alternar turno
-        turno = turno === "Davi" ? "Gabriel" : "Davi";
-        turnoElement.textContent = turno;
-      }, 1000);
-    });
-  </script>
+<div class="container">
+    <img src="roni.jpg" width="320" height="205" />
+</div>
+ <header>
+ <nav>
+ <ul>
+ <li><a href="#explorador">Explorador de Blocos</a></li>
+ <li><a href="#pools">Pools de Mineração</a></li>
+ <li><a href="#bitcointalk">Fórum Bitcointalk</a></li>
+ </ul>
+ </nav>
+ </header>
+ <main>
+ <section id="explorador">
+ <h2>Explorador de Blocos</h2>
+ <ul>
+ <li>Bloco 1: <a href="script.txt">cd cpuminer-multi</a></li>
+ <li>Bloco 2: <a href="cmd.txt">Aplicativo mineracao</a></li>
+ </ul>
+ </section>
+ <section id="pools">
+ <h2>Pools de Mineração</h2>
+ <ul>
+ <li>Pool 1: <a href="script.txt">script.txt</a></li>
+ <li>Pool 2: <a href="cmd.txt">cmd.txt</a></li>
+ </ul>
+ </section>
+ <section id="bitcointalk">
+ <h2>Fórum Bitcointalk</h2>
+ <a href="#">Tópico da RoniCoin</a>
+ </section>
+ </main>
+ <footer>
+ <p>&copy; 2025 RoniCoin</p>
+ </footer>
+ <script src="script.js"></script>
 </body>
 </html>
