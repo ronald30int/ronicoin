@@ -1,47 +1,244 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Roni (RCG1)</title>
- <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Roni Coin • Conferir Mineração</title>
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --card: #121922;
+      --muted: #6b7787;
+      --text: #e8eef6;
+      --accent: #4fd1c5;
+      --accent-2: #8ab4f8;
+      --danger: #ff6b6b;
+      --success: #22c55e;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+      background: linear-gradient(160deg, #0b0f14 0%, #0d141c 50%, #0e1721 100%);
+      color: var(--text);
+    }
+    .container { max-width: 680px; margin: 0 auto; padding: 20px; }
+    header { display: flex; align-items: center; gap: 12px; margin: 8px 0 18px; }
+    header .logo { width: 40px; height: 40px; border-radius: 12px; background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent-2)); box-shadow: 0 8px 30px rgba(79,209,197,.35);
+      display: grid; place-items: center; font-weight: 800; }
+    header h1 { font-size: 1.25rem; margin: 0; }
+    .card { background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: 18px; padding: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+    .stack { display: grid; gap: 12px; }
+    label { font-size: .9rem; color: var(--muted); }
+    input[type="text"], input[type="url"], textarea { width: 100%; padding: 14px 14px; border-radius: 14px; background: #0b1118; border: 1px solid rgba(255,255,255,.08); color: var(--text); outline: none; transition: border .2s ease; }
+    input:focus, textarea:focus { border-color: var(--accent-2); }
+    .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+    .btn { appearance: none; border: none; padding: 12px 16px; border-radius: 14px; font-weight: 600; color: #051018; background: var(--accent-2); cursor: pointer; }
+    .btn.secondary { background: #1f2a36; color: var(--text); border: 1px solid rgba(255,255,255,.08); }
+    .btn.ghost { background: transparent; color: var(--text); border: 1px dashed rgba(255,255,255,.2); }
+    .btn:active { transform: translateY(1px); }
+    .muted { color: var(--muted); font-size: .9rem; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
+    .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); background: #0e1520; }
+    .grid-2 { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } }
+    .hint { font-size: .8rem; color: var(--muted); }
+    .status { padding: 12px; border-radius: 14px; background: #0c131c; border: 1px solid rgba(255,255,255,.06); }
+    .status.ok { border-color: rgba(34,197,94,.35); box-shadow: 0 0 0 3px rgba(34,197,94,.12) inset; }
+    .status.err { border-color: rgba(255,107,107,.4); box-shadow: 0 0 0 3px rgba(255,107,107,.10) inset; }
+    footer { margin: 18px 0 36px; text-align: center; color: var(--muted); font-size: .85rem; }
+    a { color: var(--accent-2); text-decoration: none; }
+    .small { font-size: .85rem; }
+    .hr { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent); margin: 12px 0; }
+  </style>
 </head>
 <body>
-<div class="container">
-    <img src="roni.jpg" width="320" height="205" />
-</div>
- <header>
- <nav>
- <ul>
- <li><a href="#explorador">Explorador de Blocos</a></li>
- <li><a href="#pools">Pools de Mineração</a></li>
- <li><a href="#bitcointalk">Fórum Bitcointalk</a></li>
- </ul>
- </nav>
- </header>
- <main>
- <section id="explorador">
- <h2>Explorador de Blocos</h2>
- <ul>
- <li>Bloco 1: <a href="script.txt">cd cpuminer-multi</a></li>
- <li>Bloco 2: <a href="cmd.txt">Aplicativo mineracao</a></li>
- </ul>
- </section>
- <section id="pools">
- <h2>Pools de Mineração</h2>
- <ul>
- <li>Pool 1: <a href="script.txt">script.txt</a></li>
- <li>Pool 2: <a href="cmd.txt">cmd.txt</a></li>
- </ul>
- </section>
- <section id="bitcointalk">
- <h2>Fórum Bitcointalk</h2>
- <a href="#">Tópico da RoniCoin</a>
- </section>
- </main>
- <footer>
- <p>&copy; 2025 RoniCoin</p>
- </footer>
- <script src="script.js"></script>
+  <div class="container">
+    <header>
+      <div class="logo">R</div>
+      <div>
+        <h1>Roni Coin • Conferir Mineração</h1>
+        <div class="muted small">Cole sua carteira acima, confira se há saldo/ações mineradas abaixo.</div>
+      </div>
+    </header>
+
+    <!-- Carteira -->
+    <section class="card stack" aria-labelledby="carteira">
+      <h2 id="carteira" style="margin:0 0 4px">Sua carteira Roni</h2>
+      <div class="row">
+        <input id="wallet" type="text" inputmode="latin" autocomplete="off" placeholder="Ex.: roni1qxyz... ou endereço compatível" aria-label="Endereço da carteira" />
+        <button class="btn" id="saveWallet" aria-label="Salvar carteira">Salvar</button>
+      </div>
+      <div class="row">
+        <button class="btn secondary" id="pasteWallet" aria-label="Colar da área de transferência">Colar</button>
+        <button class="btn ghost" id="clearWallet" aria-label="Limpar carteira">Limpar</button>
+      </div>
+      <div class="hint">A carteira fica salva somente neste dispositivo (localStorage).</div>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- Pool/Stratum info -->
+    <section class="card stack" aria-labelledby="pool">
+      <h2 id="pool" style="margin:0 0 8px">Endereço do pool (Stratum)</h2>
+      <div class="badge mono" title="Endereço do servidor Stratum">
+        <span>stratum+tcp://stratum.scrypt.com:6878</span>
+      </div>
+      <div class="row">
+        <input id="stratum" class="mono" type="text" readonly value="stratum+tcp://stratum.scrypt.com:6878" />
+        <button class="btn secondary" id="copyStratum">Copiar</button>
+      </div>
+      <p class="hint">Use este endereço no seu minerador. Algorítmo sugerido: <span class="mono">scrypt</span>. 
+        O formato de <em>username</em> no miner é geralmente sua carteira; a senha pode ser qualquer caractere ou conforme o pool.</p>
+    </section>
+
+    <div class="hr"></div>
+
+    <!-- Verificação (mock + espaço para API real) -->
+    <section class="card stack" aria-labelledby="check">
+      <h2 id="check" style="margin:0">Conferir mineração</h2>
+      <p class="muted small">Digite seu <strong>Worker</strong> (opcional) e clique em <em>Conferir</em>. Este exemplo mostra como conectar a uma API de pool.
+        Substitua a URL de exemplo por uma API real do seu pool.</p>
+
+      <div class="grid-2">
+        <div class="stack">
+          <label for="worker">Worker (opcional)</label>
+          <input id="worker" type="text" placeholder="Ex.: roni-rig-01" />
+        </div>
+        <div class="stack">
+          <label for="api">Endpoint da API do pool</label>
+          <input id="api" type="url" placeholder="Ex.: https://pool.exemplo/api?wallet={WALLET}" />
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:8px">
+        <button class="btn" id="btnCheck">Conferir</button>
+        <button class="btn secondary" id="btnDemo">Demo</button>
+      </div>
+
+      <div id="status" class="status" role="status" aria-live="polite" style="margin-top:8px">
+        Aguardando consulta…
+      </div>
+
+      <pre id="result" class="mono" style="white-space:pre-wrap; background:#0b1118; border:1px solid rgba(255,255,255,.06); padding:12px; border-radius:12px; overflow:auto"></pre>
+
+      <p class="hint">⚠️ Observação: muitos pools exigem endpoints específicos (por exemplo, <span class="mono">/api/wallet/&lt;address&gt;</span> ou <span class="mono">/api/accounts/&lt;address&gt;</span>). Verifique a documentação do seu pool.</p>
+    </section>
+
+    <footer>
+      <div>Roni Coin • Interface de conferência (Frontend)</div>
+      <div class="small">Este é um modelo <strong>HTML + JS</strong> (sem servidor). Para saldo real, conecte a uma API do pool ou de explorador de blocos.</div>
+    </footer>
+  </div>
+
+  <script>
+    const $ = (q) => document.querySelector(q);
+    const walletInput = $('#wallet');
+    const saveBtn = $('#saveWallet');
+    const pasteBtn = $('#pasteWallet');
+    const clearBtn = $('#clearWallet');
+    const stratumInput = $('#stratum');
+    const copyStratumBtn = $('#copyStratum');
+    const btnCheck = $('#btnCheck');
+    const btnDemo = $('#btnDemo');
+    const statusBox = $('#status');
+    const resultBox = $('#result');
+    const apiInput = $('#api');
+    const workerInput = $('#worker');
+
+    // Load saved wallet
+    const saved = localStorage.getItem('roni_wallet');
+    if (saved) walletInput.value = saved;
+
+    function setStatus(msg, good=false, bad=false){
+      statusBox.textContent = msg;
+      statusBox.classList.remove('ok','err');
+      if (good) statusBox.classList.add('ok');
+      if (bad) statusBox.classList.add('err');
+    }
+
+    function validWallet(w){
+      // Validação simples/ genérica: 26-64 chars alfanum + alguns símbolos comuns
+      return /^[a-zA-Z0-9]{26,64}$/.test(w) || /^roni[0-9a-z]{10,}$/i.test(w);
+    }
+
+    saveBtn.addEventListener('click', () => {
+      const w = walletInput.value.trim();
+      if (!w) return setStatus('Informe sua carteira antes de salvar.', false, true);
+      if (!validWallet(w)) return setStatus('Formato de carteira aparentemente inválido. Confirme o endereço.', false, true);
+      localStorage.setItem('roni_wallet', w);
+      setStatus('Carteira salva com sucesso neste dispositivo.', true, false);
+    });
+
+    pasteBtn.addEventListener('click', async () => {
+      try {
+        const text = await navigator.clipboard.readText();
+        walletInput.value = text.trim();
+        setStatus('Carteira colada. Não esqueça de salvar.', true, false);
+      } catch(e){
+        setStatus('Não foi possível acessar a área de transferência. Permita o acesso ou cole manualmente.', false, true);
+      }
+    });
+
+    clearBtn.addEventListener('click', () => {
+      walletInput.value = '';
+      localStorage.removeItem('roni_wallet');
+      setStatus('Carteira limpa.', true, false);
+    });
+
+    copyStratumBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(stratumInput.value);
+        setStatus('Endereço Stratum copiado.', true, false);
+      } catch(e){ setStatus('Falha ao copiar.', false, true); }
+    });
+
+    btnDemo.addEventListener('click', () => {
+      const w = walletInput.value.trim() || 'roni1qdemoaddress000000000000';
+      const worker = workerInput.value.trim() || 'roni-rig-01';
+      const mock = {
+        wallet: w,
+        worker: worker,
+        pool: 'stratum+tcp://stratum.scrypt.com:6878',
+        algorithm: 'scrypt',
+        hashrate: '1.24 MH/s',
+        shares_accepted: 128,
+        shares_rejected: 2,
+        balance: 12.345678,
+        paid: 5.000000,
+        last_share: new Date().toISOString(),
+        note: 'Dados simulados para demonstração.'
+      };
+      resultBox.textContent = JSON.stringify(mock, null, 2);
+      setStatus('Exibindo dados DEMO (simulados).', true, false);
+    });
+
+    btnCheck.addEventListener('click', async () => {
+      const wallet = walletInput.value.trim();
+      const api = apiInput.value.trim();
+      const worker = workerInput.value.trim();
+
+      if (!wallet) return setStatus('Informe sua carteira para consultar.', false, true);
+      if (!validWallet(wallet)) return setStatus('Carteira parece inválida. Verifique o formato.', false, true);
+      if (!api) return setStatus('Informe o endpoint da API do pool para consultar.', false, true);
+
+      const url = api.replace('{WALLET}', encodeURIComponent(wallet)).replace('{WORKER}', encodeURIComponent(worker||''));
+
+      setStatus('Consultando o pool…');
+      resultBox.textContent = '';
+
+      try {
+        const res = await fetch(url, { headers: { 'accept': 'application/json' } });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+        resultBox.textContent = JSON.stringify(data, null, 2);
+        setStatus('Consulta concluída.', true, false);
+      } catch (err) {
+        console.error(err);
+        setStatus('Falha na consulta. Verifique a URL da API e CORS do servidor.', false, true);
+        resultBox.textContent = String(err);
+      }
+    });
+  </script>
 </body>
 </html>
